@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Knygų saugykla</h2>
+    <button *ngIf="authService.user | async" class="btn btn-success" routerLink="/add">Pridėti knygą</button>
+  </div>
+
+  <input type="text" class="form-control mb-3" placeholder="Ieškoti pagal pavadinimą arba ISBN..." (input)="handleSearch($event)">
+
+  <div class="table-responsive">
+    <table class="table table-hover border">
+      <thead class="table-light">
+        <tr>
+          <th>Pavadinimas</th>
+          <th>Autoriai</th>
+          <th>ISBN</th>
+          <th>Puslapiai</th>
+          <th *ngIf="authService.user | async">Veiksmai</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let book of filteredBooks()">
+          <td>{{ book.title }}</td>
+          <td>
+            <div *ngFor="let a of book.authors">{{ a.name }} {{ a.surname }}</div>
+          </td>
+          <td>{{ book.isbn }}</td>
+          <td>{{ book.pages }}</td>
+          <td *ngIf="authService.user | async">
+            <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/edit', book.id]">Redaguoti</button>
+            <button class="btn btn-sm btn-outline-danger" (click)="onDelete(book.id!)">Trinti</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

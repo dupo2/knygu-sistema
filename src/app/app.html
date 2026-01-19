@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom mb-4">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/list">Knygų Sistema</a>
+    
+    <div class="ms-auto d-flex align-items-center">
+      <ng-container *ngIf="authService.user | async as user">
+        <span class="me-3 badge bg-info text-dark">
+          {{ user.email }}
+        </span>
+        <button class="btn btn-outline-secondary btn-sm" (click)="onLogout()">Atsijungti</button>
+      </ng-container>
+
+      <a *ngIf="!(authService.user | async) && router.url !== '/auth'" 
+         routerLink="/auth" 
+         class="btn btn-primary btn-sm">
+        Prisijungti
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
